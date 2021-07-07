@@ -11,7 +11,7 @@ const productsView = item => {
                                 </div>
                             </div>
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="item_page.html">Voir fiche produit</a></div>
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="Front-end/item_page.html">Voir fiche produit</a></div>
                             </div>
                         </div>
                     </div>`                                                    
