@@ -1,4 +1,4 @@
-// AFFICHAGE PRODUITS INDEX.HTML
+// AFFICHAGE HTML PRODUITS INDEX
 const productsView = item => {
     container = document.getElementById("container")
     .innerHTML +=   `<div class="col mb-5">
@@ -11,7 +11,7 @@ const productsView = item => {
                                 </div>
                             </div>
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="Front-end/item_page.html">Voir fiche produit</a></div>
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="./pages/item_page.html?id=${item.id}">Voir fiche produit</a></div>
                             </div>
                         </div>
                     </div>`                                                    
@@ -31,3 +31,5 @@ fetch("http://localhost:3000/api/cameras")
         console.log("fetch Error")
         alert("Désolé aucun produit n'a été trouvé !")
     });
+
+    
