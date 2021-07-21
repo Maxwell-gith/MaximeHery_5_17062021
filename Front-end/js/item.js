@@ -1,12 +1,26 @@
-
 // RECUPERATION URL
 let params = (new URL(document.location)).searchParams;
 
 // RECUPERATION DE L'ID DANS L'URL
-let id =params.get("id");
+let id = params.get("id");
 
 // CIBLAGE DE LA BALISE POUR L'AFFICHAGE
 let itemContainer = document.getElementById("itemContainer");
+
+
+// LOCAL STORAGE
+const addToCart = cart => {
+    localStorage.setItem('cart' , JSON.stringify(cart));
+};
+
+// CREATION PANIER
+class Cart {
+    constructor(id, optionChoice, quantityChoice) {
+        this.id = id;
+        this.optionChoice = optionChoice;
+        this.quantityChoice = quantityChoice;
+    }
+}
 
 // AFFICHAGE HTML ITEM DANS ITEM_PAGE
 const itemView = item => {
@@ -20,32 +34,37 @@ const itemView = item => {
     </div>
     <p class="lead">${item.description}</p>
     <div class="d-flex">
-    <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" min="0" max="20" style="max-width: 4.5rem" />
+    <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" min="1" max="20" style="max-width: 4.5rem" />
     <select id="options" class="me-3 dropdown">
     
     </select>
     </div>
-    <button id="addCart" class="btn btn-outline-dark flex-shrink-0 mt-3" type="button">
+    <a href="cart_page.html" id="addCart" class="btn btn-outline-dark flex-shrink-0 mt-3">
     <i class="bi-cart-fill me-1"></i>
     Ajouter au panier
-    </button>
+    </a>
     </div>`;
 
 // SELECTION LENSES
     for (let lenses of item.lenses) {
         document.getElementById('options').innerHTML += `<option value="${lenses}">${lenses}</option>`
-    }
-
-// RECUPERATION DE LA SELECTION
-    const optionSelect = document.getElementById("options");
-    const optionchoice = optionSelect.value;
-    console.log(optionchoice);
-   
+    };
+    
 // AJOUT AU PANIER
-    document.getElementById('addCart').addEventListener('click', function () {
-        addToCart(item)
+document.getElementById('addCart').addEventListener('click',(e)=> {
+    // RECUPERATION DE LA SELECTION
+        optionSelect = document.getElementById("options");
+        optionChoice = optionSelect.value;
+        quantitySelect = document.getElementById("inputQuantity");
+        quantityChoice = quantitySelect.value;
+    //PASSAGE EN OBJET ET ON ENVOIE AU LOCALSTORAGE 
+        let cart = new Cart(id, optionChoice, quantityChoice)
+        addToCart(cart)
+        // e.preventDefault();
     });
 };
+
+
 
 // REQUETE API
 fetch("http://localhost:3000/api/cameras/" + id)
