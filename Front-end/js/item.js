@@ -7,24 +7,9 @@ let id = params.get("id");
 // CIBLAGE DE LA BALISE POUR L'AFFICHAGE
 let itemContainer = document.getElementById("itemContainer");
 
-
-// LOCAL STORAGE
-const addToCart = cart => {
-    localStorage.setItem('cart' , JSON.stringify(cart));
-};
-
-// CREATION PANIER
-class Cart {
-    constructor(id, optionChoice, quantityChoice) {
-        this.id = id;
-        this.optionChoice = optionChoice;
-        this.quantityChoice = quantityChoice;
-    }
-}
-
 // AFFICHAGE HTML ITEM DANS ITEM_PAGE
 const itemView = item => {
-    itemContainer.innerHTML += 
+    itemContainer.innerHTML = 
     `<div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src=${item.imageUrl} alt="..." /></div>
     <div class="col-md-6">
     <div class="small mb-1">Ref:${item.id}</div>
@@ -44,25 +29,43 @@ const itemView = item => {
     Ajouter au panier
     </a>
     </div>`;
-
-// SELECTION LENSES
+    
+    // SELECTION LENSES
     for (let lenses of item.lenses) {
         document.getElementById('options').innerHTML += `<option value="${lenses}">${lenses}</option>`
     };
+
+    //ECOUTE AU CLIC
+    document.getElementById('addCart').addEventListener('click', function() {addToCart(item)});
     
-// AJOUT AU PANIER
-document.getElementById('addCart').addEventListener('click',(e)=> {
-    // RECUPERATION DE LA SELECTION
-        optionSelect = document.getElementById("options");
-        optionChoice = optionSelect.value;
-        quantitySelect = document.getElementById("inputQuantity");
-        quantityChoice = quantitySelect.value;
-    //PASSAGE EN OBJET ET ON ENVOIE AU LOCALSTORAGE 
-        let cart = new Cart(id, optionChoice, quantityChoice)
-        addToCart(cart)
-        // e.preventDefault();
-    });
 };
+
+// LOCAL STORAGE
+const addToLocalStorage = cart => {
+    localStorage.setItem('cart' , JSON.stringify(cart));
+};
+
+//AJOUT AU PANIER
+const addToCart = item => {
+    item.lenses = document.getElementById('options').value
+    item.quantity = parseInt(document.getElementById('quantity').value);
+    //RECUPERATION DU PANIER
+    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+    // BOUCLE FOR PARCOURIR LIGNE PANIER
+    let cameraExistIndex = false;
+    for (let i=0; i < cart.length; i++) {
+        let item = cart[i];
+        if (item.id === item.id) {
+            cameraExistIndex = i;      
+        }
+    };
+    if (false !== cameraExistIndex) { 
+        cart[cameraExistIndex].quantity = parseInt(cart[cameraExistIndex].quantity) + item.quantity;
+    }else{
+        cart.push(item);
+    };
+    addToLocalStorage(cart);
+};    
 
 
 
