@@ -11,25 +11,25 @@ let itemContainer = document.getElementById("itemContainer");
 const itemView = item => {
     itemContainer.innerHTML = 
     `<div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src=${item.imageUrl} alt="..." /></div>
-    <div class="col-md-6">
-    <div class="small mb-1">Ref:${item.id}</div>
-    <h1 class="display-5 fw-bolder">${item.name}</h1>
-    <div class="fs-5 mb-5">
-    <span>${item.price/100}€</span>
-    </div>
-    <p class="lead">${item.description}</p>
-    <div class="d-flex">
-    <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" min="1" max="20" style="max-width: 4.5rem" />
-    <select id="options" class="me-3 dropdown">
-    
-    </select>
-    </div>
-    <a href="cart_page.html">
-    <button  id="addCart" class="btn btn-outline-dark flex-shrink-0 mt-3">
-            <i class="bi-cart-fill me-1"></i>
+        <div class="col-md-6">
+            <div class="small mb-1">Ref:${item.id}</div>
+            <h1 class="display-5 fw-bolder">${item.name}</h1>
+            <div class="fs-5 mb-5">
+            <span>${item.price/100}€</span>
+        </div>
+        <p class="lead">${item.description}</p>
+        <div class="d-flex">
+            <input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" min="1" max="20" style="max-width: 4.5rem" />
+            <select id="options" class="me-3 dropdown">
+            
+            </select>
+        </div>
+        <a href="cart_page.html">
+            <button  id="addCart" class="btn btn-outline-dark flex-shrink-0 mt-3">
+                <i class="bi-cart-fill me-1"></i>
                 Ajouter au panier
-                </button>
-                </a>
+            </button>
+        </a>
     </div>`;
     
     // SELECTION LENSES
@@ -52,11 +52,11 @@ const addToCart = item => {
     item.lenses = document.getElementById('options').value
     item.quantity = parseInt(document.getElementById('inputQuantity').value);
     //RECUPERATION DU PANIER
-    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+    let cart = JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : [];
     // BOUCLE FOR PARCOURIR LIGNE PANIER
     let cameraExistIndex = false;
     for (let i=0; i < cart.length; i++) {
-        let item = cart[i];
+        let item2 = cart[i];
         if (item.id === item2.id) {
             cameraExistIndex = i;      
         }
