@@ -24,10 +24,12 @@ const itemView = item => {
     
     </select>
     </div>
-    <a href="cart_page.html" id="addCart" class="btn btn-outline-dark flex-shrink-0 mt-3">
-    <i class="bi-cart-fill me-1"></i>
-    Ajouter au panier
-    </a>
+    <a href="cart_page.html">
+    <button  id="addCart" class="btn btn-outline-dark flex-shrink-0 mt-3">
+            <i class="bi-cart-fill me-1"></i>
+                Ajouter au panier
+                </button>
+                </a>
     </div>`;
     
     // SELECTION LENSES
@@ -48,14 +50,14 @@ const addToLocalStorage = cart => {
 //AJOUT AU PANIER
 const addToCart = item => {
     item.lenses = document.getElementById('options').value
-    item.quantity = parseInt(document.getElementById('quantity').value);
+    item.quantity = parseInt(document.getElementById('inputQuantity').value);
     //RECUPERATION DU PANIER
     let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
     // BOUCLE FOR PARCOURIR LIGNE PANIER
     let cameraExistIndex = false;
     for (let i=0; i < cart.length; i++) {
         let item = cart[i];
-        if (item.id === item.id) {
+        if (item.id === item2.id) {
             cameraExistIndex = i;      
         }
     };

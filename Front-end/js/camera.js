@@ -1,5 +1,5 @@
 class Product {
-    constructor({lenses,_id,name,price,description,imageUrl,quantity}) {
+    constructor({lenses,_id,name,price,description,imageUrl,quantity,}) {
         this.lenses = lenses;
         this.id = _id;
         this.name = name;
