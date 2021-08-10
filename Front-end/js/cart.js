@@ -3,6 +3,7 @@ let cart = JSON.parse(localStorage.getItem('cart'));
 // CIBLAGE DE LA BALISE POUR L'AFFICHAGE
 let cartContainer = document.getElementById('cartContainer');
 
+// AFFICHAGE SI LE PANIER EST VIDE
 if(cart === null || cart.lenght < 1){
     cartContainer.innerHTML = 
     `<div class="text-center mt-1 mb-2">
@@ -10,7 +11,9 @@ if(cart === null || cart.lenght < 1){
         <a href="../index.html" class="btn btn-dark btn-outline-dark mt-5 display-5">Remplissez-le ! <i class="fas fa-camera-retro"></i></a>
     </div>`;
 
+// AFFICHAGE SI LE PANIER CONTIENT UN OU DES PRODUITS
 }else {
+    //EN TETE DU TABLEAU 
     let theadContainer = document.getElementById('theadContainer');
     theadContainer.innerHTML = 
     `<tr>
@@ -22,6 +25,83 @@ if(cart === null || cart.lenght < 1){
         <th>Prix Total</th>
         <th>Supprimer</th>
     </tr>`
+
+    //AFFICHAGE DES PRODUITS DANS BODY DU TABLEAU
+    let cartView = [];
+    for(i = 0; i < cart.length; i++) {
+        cartView +=
+        `<tr>
+        <td class="w-25"><img class="card-img" src="${cart[i].imageUrl}"></td>
+        <td class="align-middle">${cart[i].name}</td>
+        <td class="align-middle">${cart[i].lenses}</td>
+        <td class="align-middle">${cart[i].price/100}€</td>
+        <td class="align-middle">${cart[i].quantity}</td>
+        <td class="align-middle">${cart[i].quantity*cart[i].price/100}€</td>
+        
+        <td class="align-middle"><button class="delete1Item"><i class="fas fa-trash-alt"></i></button></td>
+        </tr>`; //a voir pour pouvoir modifier la quantité sur cette page et que le calcul des prix suivent
+    };
+
+    if (i == cart.length) {
+        cartContainer.innerHTML = cartView;
+    };
+
+    // SUPPRIMER UN ARTICLE
+    function delete1 (id) {
+        for(j = 0; j < cart.length; j++){ 
+            if (cart[j].quantity > 1) {
+                cart[j].quantity --;
+            } else {
+                cart.splice(id, 1);
+            }
+            localStorage.setItem('cart' , JSON.stringify(cart));
+            window.location.reload();
+        }
+    };    
+    
+    document.querySelectorAll('.delete1Item').forEach(btnDelete => {
+        btnDelete.addEventListener('click', () => delete1(btnDelete.dataset.id))
+    });
+
+    //CALCUL DU PRIX DU PANIER
+    let totalPrice = [];
+    for (k = 0; k < cart.length; k++) {
+        let priceInCart = cart[k].price;
+        totalPrice.push(priceInCart)
+        console.log(totalPrice)
+    }
+    
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    const totalPriceCalculation = totalPrice.reduce(reducer,0);  
+    console.log(totalPriceCalculation);
+
+    // AFFICHAGE DU PRIX DANS FOOTER DU TABLEAU
+    let totalPriceContainer = document.getElementById('totalPriceContainer');
+    totalPriceContainer.innerHTML =
+    `<tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <th>TOTAL</th>
+        <th>${totalPriceCalculation/100}€</th>
+        <th><button id="deleteAll">Tout supprimer</button></th>
+    </tr`; //ajouter une touche pour supprimer entièrement le panier
+
+    // SUPRIMER TOUT LE PANIER
+    let deleteAll = document.getElementById('deleteAll');
+    function deleteCart() {
+        if (cart == null){
+        }else {
+            localStorage.clear();
+            window.location.reload();
+        }
+    };
+    deleteAll.addEventListener('click', deleteCart);
+
+
+
+    // AFFICHAGE DU FORMULAIRE DE COMMANDE
     let formContainer = document.getElementById('formContainer');
     formContainer.innerHTML = 
     `<div class="form-row">
@@ -50,42 +130,15 @@ if(cart === null || cart.lenght < 1){
         <input type="number" class="form-control" id="inputpostalcode" placeholder="Code Postal">
     </div>
     <button type="submit" class="btn btn-dark mt-3">Commander</button>`
-    let cartView = [];
-    for(i = 0; i < cart.length; i++) {
-        cartView +=
-        `<tr>
-            <td class="w-25"><img class="card-img" src="${cart[i].imageUrl}"></td>
-            <td class="align-middle">${cart[i].name}</td>
-            <td class="align-middle">${cart[i].lenses}</td>
-            <td class="align-middle">${cart[i].price/100}€</td>
-            <td class="align-middle"><input class="form-control text-center me-3" id="inputQuantity" type="number" value=${cart[i].quantity} min="1" max="20" style="max-width: 4.5rem" /></td>
-            <td class="align-middle">${cart[i].quantity*cart[i].price/100}€</td>
-           
-            <td class="align-middle" id="delete1Item"><i class="fas fa-trash-alt"></i></td>
-        </tr>`;
-    };
 
-    if (i == cart.length) {
-        cartContainer.innerHTML = cartView;
-    };
+
+    
+
+
+    
+
+    
 };
-
-const itemTotalPrice = () => {
-    let reducer = (accumulator, currentValue) => accumulator + currentValue;
-    let totalPrice = totalCart.reduce(reducer, 0);
-    totalPriceContainer = document.getElementById("totalPriceContainer").innerHTML =
-    `<tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>Total</td>
-        <td>${totalPrice}€</td>
-    </tr>`;
-
-    localStorage.setItem("totalPrice", JSON.stringify(totalPrice));
-};
-
-
 
 
 
