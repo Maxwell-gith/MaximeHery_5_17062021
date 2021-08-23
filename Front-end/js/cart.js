@@ -4,7 +4,8 @@ let cart = JSON.parse(localStorage.getItem('cart'));
 let cartContainer = document.getElementById('cartContainer');
 
 // AFFICHAGE SI LE PANIER EST VIDE
-if(cart === null || cart.lenght < 1){
+// alert(cart.lenght);
+if(cart == null || cart == []){
     cartContainer.innerHTML = 
     `<div class="text-center mt-1 mb-2">
         <h1 class="display-5 fw-bolder text-center">est vide...</h1>
@@ -38,7 +39,7 @@ if(cart === null || cart.lenght < 1){
         <td class="align-middle">${cart[i].quantity}</td>
         <td class="align-middle">${cart[i].quantity*cart[i].price/100}€</td>
         
-        <td class="align-middle"><button class="delete1Item"><i class="fas fa-trash-alt"></i></button></td>
+        <td class="align-middle"><button class="delete1Item btn btn-outline-dark" data-id="${i}"><i class="fas fa-trash-alt"></i></button></td>
         </tr>`; //a voir pour pouvoir modifier la quantité sur cette page et que le calcul des prix suivent
     };
 
@@ -48,15 +49,13 @@ if(cart === null || cart.lenght < 1){
 
     // SUPPRIMER UN ARTICLE
     function delete1 (id) {
-        for(j = 0; j < cart.length; j++){ 
-            if (cart[j].quantity > 1) {
-                cart[j].quantity --;
+            if (cart[id].quantity > 1) {
+                cart[id].quantity --;
             } else {
                 cart.splice(id, 1);
             }
             localStorage.setItem('cart' , JSON.stringify(cart));
             window.location.reload();
-        }
     };    
     
     document.querySelectorAll('.delete1Item').forEach(btnDelete => {
@@ -68,12 +67,12 @@ if(cart === null || cart.lenght < 1){
     for (k = 0; k < cart.length; k++) {
         let priceInCart = cart[k].price;
         totalPrice.push(priceInCart)
-        console.log(totalPrice)
+        // console.log(totalPrice)
     }
     
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
     const totalPriceCalculation = totalPrice.reduce(reducer,0);  
-    console.log(totalPriceCalculation);
+    // console.log(totalPriceCalculation);
 
     // AFFICHAGE DU PRIX DANS FOOTER DU TABLEAU
     let totalPriceContainer = document.getElementById('totalPriceContainer');
@@ -85,8 +84,8 @@ if(cart === null || cart.lenght < 1){
         <td></td>
         <th>TOTAL</th>
         <th>${totalPriceCalculation/100}€</th>
-        <th><button id="deleteAll">Tout supprimer</button></th>
-    </tr`; //ajouter une touche pour supprimer entièrement le panier
+        <th><button id="deleteAll" class="btn btn-outline-dark">Tout supprimer</button></th>
+    </tr`; 
 
     // SUPRIMER TOUT LE PANIER
     let deleteAll = document.getElementById('deleteAll');
