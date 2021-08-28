@@ -28,9 +28,9 @@ if(cart == null || cart == []){
     </tr>`
 
     //AFFICHAGE DES PRODUITS DANS BODY DU TABLEAU
-    let cartView = [];
+    // let cartView = [];
     for(i = 0; i < cart.length; i++) {
-        cartView +=
+        cartContainer.innerHTML +=
         `<tr>
         <td class="w-25"><img class="card-img" src="${cart[i].imageUrl}"></td>
         <td class="align-middle">${cart[i].name}</td>
@@ -43,9 +43,9 @@ if(cart == null || cart == []){
         </tr>`; //a voir pour pouvoir modifier la quantité sur cette page et que le calcul des prix suivent
     };
 
-    if (i == cart.length) {
-        cartContainer.innerHTML = cartView;
-    };
+    // if (i == cart.length) {
+    //     cartContainer.innerHTML = cartView;
+    // };
 
     // SUPPRIMER UN ARTICLE
     function delete1 (id) {
@@ -65,11 +65,11 @@ if(cart == null || cart == []){
     //CALCUL DU PRIX DU PANIER
     let totalPrice = [];
     for (k = 0; k < cart.length; k++) {
-        let priceInCart = cart[k].price;
+        let priceInCart = cart[k].price*cart[k].quantity;
         totalPrice.push(priceInCart)
-        // console.log(totalPrice)
     }
-    
+    localStorage.setItem
+
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
     const totalPriceCalculation = totalPrice.reduce(reducer,0);  
     // console.log(totalPriceCalculation);
@@ -103,34 +103,75 @@ if(cart == null || cart == []){
     // AFFICHAGE DU FORMULAIRE DE COMMANDE
     let formContainer = document.getElementById('formContainer');
     formContainer.innerHTML = 
-    `<div class="form-row">
+    `<div class="form">
         <div class="form-group col-md-6 mt-3">
-            <input type="text" class="form-control" placeholder="Nom">
+            <input type="text" required class="form-control" id="inputfirstName" placeholder="Nom">
         </div>
         <div class="form-group col-md-6 mt-3">
-            <input type="text" class="form-control" placeholder="Prénom">
+            <input type="text" required class="form-control" id="inputlastName" placeholder="Prénom">
         </div>
-    </div>
-    <div class="form-row">
+
         <div class="form-group col-md-6 mt-3">
-            <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+            <input type="email" required class="form-control" id="inputEmail" placeholder="Email">
         </div>
-    </div>
-    <div class="form-group col-md-6 mt-3">
-        <input type="text" class="form-control" id="inputAddress" placeholder="Adresse">
-    </div>
-    <div class="form-group col-md-6 mt-3">
-        <input type="text" class="form-control" id="inputAddress2" placeholder="Complément d'adresse">
-    </div>
-    <div class="form-group col-md-6 mt-3">
-        <input type="text" class="form-control" id="inputCity" placeholder="Ville">
-    </div>
-    <div class="form-group col-md-6 mt-3">
-        <input type="number" class="form-control" id="inputpostalcode" placeholder="Code Postal">
+        <div class="form-group col-md-6 mt-3">
+            <input type="text" required class="form-control" id="inputAddress" placeholder="Adresse">
+        </div>
+        <div class="form-group col-md-6 mt-3">
+            <input type="text" required class="form-control" id="inputAddress2" placeholder="Complément d'adresse">
+        </div>
+        <div class="form-group col-md-6 mt-3">
+            <input type="number" min="0" max="100000" required class="form-control" id="inputPostalCode" placeholder="Code Postal">
+        </div>
+        <div class="form-group col-md-6 mt-3">
+            <input type="text" required class="form-control" id="inputCity" placeholder="Ville">
+        </div>
     </div>
     <button type="submit" class="btn btn-dark mt-3">Commander</button>`
 
+    // PREPARATION DE LA COMMANDE
+    let addInCart = [];
+    function sendOrder() {
+        let form = document.getElementById("form");
+        if (form.reportValidity()== true && addInCart.length > 0) {
+            let contact = {
+                'firstName': document.getElementById("inputfirstName").value,
+                'lastName': document.getElementById("inputlastName").value,
+                'email': document.getElementById("inputEmail").value,
+                'address': document.getElementById("inputAddress").value,
+                'address2': document.getElementById("inputAddress2").value,
+                'postalCode': document.getElementById("inputPostalCode").value,
+                'city': document.getElementById("inputCity").value
+            };
 
+            let productsOrdered = [addInCart];
+
+            let customerOrder = JSON.stringify({
+                contact,
+                productsOrdered,
+            });
+
+            // REQUETE API FETCH POST
+            fetch("http://localhost:3000/api/cameras/order", {
+                method:'POST',
+                headers: {
+                    'content-type': "application/json"
+                },
+                mode:"cors",
+                body: customerOrder
+            })
+            .then(function(response) {
+                return response.json()
+            })
+            .then(function (r) {
+                localStorage.setItem("contact", JSON.stringify(r.contact));
+                window.location.assign("confirmation.html?orderId=" + r.orderId);
+            })
+            .catch(function (err){
+                console.log("fetch Error");
+            });
+        }
+    }
     
 
 
