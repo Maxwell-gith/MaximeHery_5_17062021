@@ -4,7 +4,6 @@ let cart = JSON.parse(localStorage.getItem('cart'));
 let cartContainer = document.getElementById('cartContainer');
 
 // AFFICHAGE SI LE PANIER EST VIDE
-// alert(cart.lenght);
 if(cart == null || cart == []){
     cartContainer.innerHTML = 
     `<div class="text-center mt-1 mb-2">
@@ -28,7 +27,6 @@ if(cart == null || cart == []){
     </tr>`
 
     //AFFICHAGE DES PRODUITS DANS BODY DU TABLEAU
-    // let cartView = [];
     for(i = 0; i < cart.length; i++) {
         cartContainer.innerHTML +=
         `<tr>
@@ -41,11 +39,13 @@ if(cart == null || cart == []){
         
         <td class="align-middle"><button class="delete1Item btn btn-outline-dark" data-id="${i}"><i class="fas fa-trash-alt"></i></button></td>
         </tr>`; //a voir pour pouvoir modifier la quantité sur cette page et que le calcul des prix suivent
-    };
 
-    // if (i == cart.length) {
-    //     cartContainer.innerHTML = cartView;
-    // };
+        // BOUCLE POUR AJOUTER ID PRODUITS
+        let addIdCart = [];
+        for (j = 0; j < cart.quantity; j++){
+            addIdCart.push(cart.id);
+        }
+    };
 
     // SUPPRIMER UN ARTICLE
     function delete1 (id) {
@@ -68,24 +68,24 @@ if(cart == null || cart == []){
         let priceInCart = cart[k].price*cart[k].quantity;
         totalPrice.push(priceInCart)
     }
-    localStorage.setItem
-
+    
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
     const totalPriceCalculation = totalPrice.reduce(reducer,0);  
-    // console.log(totalPriceCalculation);
-
+    
     // AFFICHAGE DU PRIX DANS FOOTER DU TABLEAU
     let totalPriceContainer = document.getElementById('totalPriceContainer');
     totalPriceContainer.innerHTML =
     `<tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <th>TOTAL</th>
-        <th>${totalPriceCalculation/100}€</th>
-        <th><button id="deleteAll" class="btn btn-outline-dark">Tout supprimer</button></th>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <th>TOTAL</th>
+    <th>${totalPriceCalculation/100}€</th>
+    <th><button id="deleteAll" class="btn btn-outline-dark">Tout supprimer</button></th>
     </tr`; 
+    
+    localStorage.setItem('totalPriceCalculation', JSON.stringify(totalPriceCalculation));
 
     // SUPRIMER TOUT LE PANIER
     let deleteAll = document.getElementById('deleteAll');
@@ -97,8 +97,6 @@ if(cart == null || cart == []){
         }
     };
     deleteAll.addEventListener('click', deleteCart);
-
-
 
     // AFFICHAGE DU FORMULAIRE DE COMMANDE
     let formContainer = document.getElementById('formContainer');
@@ -127,13 +125,17 @@ if(cart == null || cart == []){
             <input type="text" required class="form-control" id="inputCity" placeholder="Ville">
         </div>
     </div>
-    <button type="submit" class="btn btn-dark mt-3">Commander</button>`
+    <a title="Commander" href="confirmation_page.html">
+        <button id="order" type="submit" class="btn btn-dark mt-3">
+            Commander
+        </button>
+    </a>
+    `
 
     // PREPARATION DE LA COMMANDE
-    let addInCart = [];
     function sendOrder() {
         let form = document.getElementById("form");
-        if (form.reportValidity()== true && addInCart.length > 0) {
+        if (form.reportValidity()== true && addIdCart.length > 0) {
             let contact = {
                 'firstName': document.getElementById("inputfirstName").value,
                 'lastName': document.getElementById("inputlastName").value,
@@ -144,7 +146,7 @@ if(cart == null || cart == []){
                 'city': document.getElementById("inputCity").value
             };
 
-            let productsOrdered = [addInCart];
+            let productsOrdered = [addIdCart];
 
             let customerOrder = JSON.stringify({
                 contact,
@@ -165,7 +167,7 @@ if(cart == null || cart == []){
             })
             .then(function (r) {
                 localStorage.setItem("contact", JSON.stringify(r.contact));
-                window.location.assign("confirmation.html?orderId=" + r.orderId);
+                window.location.assign("confirmation_page.html?orderId=" + r.orderId);
             })
             .catch(function (err){
                 console.log("fetch Error");
@@ -173,11 +175,7 @@ if(cart == null || cart == []){
         }
     }
     
-
-
-    
-
-    
+    document.getElementById('order').addEventListener('click', function() {sendOrder()});
 };
 
 

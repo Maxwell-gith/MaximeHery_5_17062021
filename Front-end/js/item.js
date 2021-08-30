@@ -24,7 +24,7 @@ const itemView = item => {
             
             </select>
         </div>
-        <a href="cart_page.html">
+        <a title="Ajouter au panier" href="cart_page.html">
             <button  id="addCart" class="btn btn-outline-dark flex-shrink-0 mt-3">
                 <i class="bi-cart-fill me-1"></i>
                 Ajouter au panier
