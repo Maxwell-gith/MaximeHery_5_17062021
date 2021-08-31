@@ -41,15 +41,15 @@ if(cart == null || cart == []){
         </tr>`; //a voir pour pouvoir modifier la quantité sur cette page et que le calcul des prix suivent
 
         // BOUCLE POUR AJOUTER ID PRODUITS
-        let addIdCart = [];
-        for (j = 0; j < cart.quantity; j++){
-            addIdCart.push(cart.id);
+        var addIdCart = [];
+        for (j = 0; j < cart[i].quantity; j++){
+            addIdCart.push(cart[i].id);
         }
     };
 
     // SUPPRIMER UN ARTICLE
     function delete1 (id) {
-            if (cart[id].quantity > 1) {
+            if (cart[id].quantity > 1) { 
                 cart[id].quantity --;
             } else {
                 cart.splice(id, 1);
@@ -101,29 +101,28 @@ if(cart == null || cart == []){
     // AFFICHAGE DU FORMULAIRE DE COMMANDE
     let formContainer = document.getElementById('formContainer');
     formContainer.innerHTML = 
-    `<div class="form">
-        <div class="form-group col-md-6 mt-3">
-            <input type="text" required class="form-control" id="inputfirstName" placeholder="Nom">
-        </div>
-        <div class="form-group col-md-6 mt-3">
-            <input type="text" required class="form-control" id="inputlastName" placeholder="Prénom">
-        </div>
+    `
+    <div class="form-group col-md-6 mt-3">
+        <input type="text" required class="form-control" id="inputfirstName" placeholder="Nom">
+    </div>
+    <div class="form-group col-md-6 mt-3">
+        <input type="text" required class="form-control" id="inputlastName" placeholder="Prénom">
+    </div>
 
-        <div class="form-group col-md-6 mt-3">
-            <input type="email" required class="form-control" id="inputEmail" placeholder="Email">
-        </div>
-        <div class="form-group col-md-6 mt-3">
-            <input type="text" required class="form-control" id="inputAddress" placeholder="Adresse">
-        </div>
-        <div class="form-group col-md-6 mt-3">
-            <input type="text" required class="form-control" id="inputAddress2" placeholder="Complément d'adresse">
-        </div>
-        <div class="form-group col-md-6 mt-3">
-            <input type="number" min="0" max="100000" required class="form-control" id="inputPostalCode" placeholder="Code Postal">
-        </div>
-        <div class="form-group col-md-6 mt-3">
-            <input type="text" required class="form-control" id="inputCity" placeholder="Ville">
-        </div>
+    <div class="form-group col-md-6 mt-3">
+        <input type="email" required class="form-control" id="inputEmail" placeholder="Email">
+    </div>
+    <div class="form-group col-md-6 mt-3">
+        <input type="text" required class="form-control" id="inputAddress" placeholder="Adresse">
+    </div>
+    <div class="form-group col-md-6 mt-3">
+        <input type="text" required class="form-control" id="inputAddress2" placeholder="Complément d'adresse">
+    </div>
+    <div class="form-group col-md-6 mt-3">
+        <input type="number" min="0" max="100000" required class="form-control" id="inputPostalCode" placeholder="Code Postal">
+    </div>
+    <div class="form-group col-md-6 mt-3">
+        <input type="text" required class="form-control" id="inputCity" placeholder="Ville">
     </div>
     <a title="Commander" href="confirmation_page.html">
         <button id="order" type="submit" class="btn btn-dark mt-3">
@@ -134,15 +133,15 @@ if(cart == null || cart == []){
 
     // PREPARATION DE LA COMMANDE
     function sendOrder() {
-        let form = document.getElementById("form");
-        if (form.reportValidity()== true && addIdCart.length > 0) {
+        let formContainer = document.getElementById("formContainer");
+        if (formContainer.reportValidity() == true && addIdCart.length > 0) {
             let contact = {
                 'firstName': document.getElementById("inputfirstName").value,
                 'lastName': document.getElementById("inputlastName").value,
                 'email': document.getElementById("inputEmail").value,
                 'address': document.getElementById("inputAddress").value,
-                'address2': document.getElementById("inputAddress2").value,
-                'postalCode': document.getElementById("inputPostalCode").value,
+                // 'address2': document.getElementById("inputAddress2").value,
+                // 'postalCode': document.getElementById("inputPostalCode").value,
                 'city': document.getElementById("inputCity").value
             };
 
@@ -174,8 +173,7 @@ if(cart == null || cart == []){
             });
         }
     }
-    
-    document.getElementById('order').addEventListener('click', function() {sendOrder()});
+    document.getElementById('order').addEventListener('click', function(e) {e.preventDefault(); sendOrder()});
 };
 
 
