@@ -135,22 +135,22 @@ if(cart == null || cart == []){
     function sendOrder() {
         let formContainer = document.getElementById("formContainer");
         if (formContainer.reportValidity() == true && addIdCart.length > 0) {
-            let contact = {
+            var contact = {
                 'firstName': document.getElementById("inputfirstName").value,
                 'lastName': document.getElementById("inputlastName").value,
                 'email': document.getElementById("inputEmail").value,
                 'address': document.getElementById("inputAddress").value,
-                // 'address2': document.getElementById("inputAddress2").value,
-                // 'postalCode': document.getElementById("inputPostalCode").value,
+                'address2': document.getElementById("inputAddress2").value,
+                'postalCode': document.getElementById("inputPostalCode").value,
                 'city': document.getElementById("inputCity").value
             };
 
-            let productsOrdered = [addIdCart];
+            var products = [addIdCart];
 
-            let customerOrder = JSON.stringify({
+            const customerOrder = {
                 contact,
-                productsOrdered,
-            });
+                products,
+            };
 
             // REQUETE API FETCH POST
             fetch("http://localhost:3000/api/cameras/order", {
@@ -159,12 +159,12 @@ if(cart == null || cart == []){
                     'content-type': "application/json"
                 },
                 mode:"cors",
-                body: customerOrder
+                body: JSON.stringify(customerOrder),
             })
-            .then(function(response) {
-                return response.json()
+            .then(function(response){ 
+            return response.json()
             })
-            .then(function (r) {
+            .then(function (r){ 
                 localStorage.setItem("contact", JSON.stringify(r.contact));
                 window.location.assign("confirmation_page.html?orderId=" + r.orderId);
             })
@@ -172,7 +172,7 @@ if(cart == null || cart == []){
                 console.log("fetch Error");
             });
         }
-    }
+    };
     document.getElementById('order').addEventListener('click', function(e) {e.preventDefault(); sendOrder()});
 };
 
