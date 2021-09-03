@@ -4,11 +4,9 @@ let params = (new URL(document.location)).searchParams;
 // RECUPERATION DE L'ID DANS L'URL
 let id = params.get("id");
 
-// CIBLAGE DE LA BALISE POUR L'AFFICHAGE
-let itemContainer = document.getElementById("itemContainer");
-
 // AFFICHAGE HTML ITEM DANS ITEM_PAGE
-const itemView = item => {
+let itemContainer = document.getElementById("itemContainer");
+itemView = item => {
     itemContainer.innerHTML = 
     `<div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src=${item.imageUrl} alt="..." /></div>
         <div class="col-md-6">
@@ -33,30 +31,32 @@ const itemView = item => {
     </div>`;
     
     // SELECTION LENSES
-    for (let lenses of item.lenses) {
-        document.getElementById('options').innerHTML += `<option value="${lenses}">${lenses}</option>`
+    for (lenses of item.lenses) {
+        options = document.getElementById('options');
+        options.innerHTML += `<option value="${lenses}">${lenses}</option>`;
     };
 
     //ECOUTE AU CLIC
-    document.getElementById('addCart').addEventListener('click', function() {addToCart(item)});
+    addCart = document.getElementById('addCart');
+    addCart.addEventListener('click', function() {addToCart(item)});
     
 };
 
 // LOCAL STORAGE
-const addToLocalStorage = cart => {
+addToLocalStorage = cart => {
     localStorage.setItem('cart' , JSON.stringify(cart));
 };
 
 //AJOUT AU PANIER
-const addToCart = item => {
+addToCart = item => {
     item.lenses = document.getElementById('options').value
     item.quantity = parseInt(document.getElementById('inputQuantity').value);
     //RECUPERATION DU PANIER
-    let cart = JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : [];
+    cart = JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : [];
     // BOUCLE FOR PARCOURIR LIGNE PANIER
-    let cameraExistIndex = false;
-    for (let i=0; i < cart.length; i++) {
-        let item2 = cart[i];
+    cameraExistIndex = false;
+    for (i=0; i < cart.length; i++) {
+        item2 = cart[i];
         if (item.id === item2.id) {
             cameraExistIndex = i;      
         }

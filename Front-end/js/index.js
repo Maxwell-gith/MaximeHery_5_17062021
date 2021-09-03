@@ -1,7 +1,7 @@
 // AFFICHAGE HTML PRODUITS INDEX
-const productsView = item => {
-    container = document.getElementById("container")
-    .innerHTML +=   `<div class="col mb-5">
+productsView = item => {
+    container = document.getElementById("container");
+    container.innerHTML +=   `<div class="col mb-5">
                         <div class="card h-100">
                             <img class="card-img-top" src=${item.imageUrl} alt="..." />
                             <div class="card-body p-4">

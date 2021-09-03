@@ -1,6 +1,6 @@
+// RECUPERATION LOCAL STORAGE
 let cart = JSON.parse(localStorage.getItem('cart'));
 
-// CIBLAGE DE LA BALISE POUR L'AFFICHAGE
 let cartContainer = document.getElementById('cartContainer');
 
 // AFFICHAGE SI LE PANIER EST VIDE
@@ -14,7 +14,7 @@ if(cart == null || cart == []){
 // AFFICHAGE SI LE PANIER CONTIENT UN OU DES PRODUITS
 }else {
     //EN TETE DU TABLEAU 
-    let theadContainer = document.getElementById('theadContainer');
+    theadContainer = document.getElementById('theadContainer');
     theadContainer.innerHTML = 
     `<tr>
         <th>Photo</th>
@@ -48,7 +48,7 @@ if(cart == null || cart == []){
     };
 
     // SUPPRIMER UN ARTICLE
-    function delete1 (id) {
+    delete1 = id =>{
             if (cart[id].quantity > 1) { 
                 cart[id].quantity --;
             } else {
@@ -63,17 +63,17 @@ if(cart == null || cart == []){
     });
 
     //CALCUL DU PRIX DU PANIER
-    let totalPrice = [];
+    totalPrice = [];
     for (k = 0; k < cart.length; k++) {
-        let priceInCart = cart[k].price*cart[k].quantity;
+        priceInCart = cart[k].price*cart[k].quantity;
         totalPrice.push(priceInCart)
     }
     
-    const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    const totalPriceCalculation = totalPrice.reduce(reducer,0);  
+    reducer = (accumulator, currentValue) => accumulator + currentValue;
+    totalPriceCalculation = totalPrice.reduce(reducer,0);  
     
     // AFFICHAGE DU PRIX DANS FOOTER DU TABLEAU
-    let totalPriceContainer = document.getElementById('totalPriceContainer');
+    totalPriceContainer = document.getElementById('totalPriceContainer');
     totalPriceContainer.innerHTML =
     `<tr>
     <td></td>
@@ -88,18 +88,18 @@ if(cart == null || cart == []){
     localStorage.setItem('totalPriceCalculation', JSON.stringify(totalPriceCalculation));
 
     // SUPRIMER TOUT LE PANIER
-    let deleteAll = document.getElementById('deleteAll');
-    function deleteCart() {
+    deleteCart = () =>{
         if (cart == null){
         }else {
             localStorage.clear();
-            window.location.reload();
+            window.location.reload(); 
         }
     };
+    deleteAll = document.getElementById('deleteAll');
     deleteAll.addEventListener('click', deleteCart);
 
     // AFFICHAGE DU FORMULAIRE DE COMMANDE
-    let formContainer = document.getElementById('formContainer');
+    formContainer = document.getElementById('formContainer');
     formContainer.innerHTML = 
     `
     <div class="form-group col-md-6 mt-3">
@@ -132,8 +132,7 @@ if(cart == null || cart == []){
     `
 
     // PREPARATION DE LA COMMANDE
-    function sendOrder() {
-        let formContainer = document.getElementById("formContainer");
+    sendOrder = () =>{
         if (formContainer.reportValidity() == true && addIdCart.length > 0) {
             var contact = {
                 'firstName': document.getElementById("inputfirstName").value,
@@ -145,13 +144,13 @@ if(cart == null || cart == []){
                 'city': document.getElementById("inputCity").value
             };
 
-            var products = [addIdCart];
-
-            const customerOrder = {
+            products = [addIdCart];
+            
+            customerOrder = {
                 contact,
                 products,
             };
-
+            
             // REQUETE API FETCH POST
             fetch("http://localhost:3000/api/cameras/order", {
                 method:'POST',
@@ -173,9 +172,11 @@ if(cart == null || cart == []){
             });
         }
     };
-    document.getElementById('order').addEventListener('click', function(e) {e.preventDefault(); sendOrder()});
-};
 
+    order = document.getElementById('order');
+    order.addEventListener('click', function(e) {e.preventDefault(); sendOrder()});
+
+};
 
 
 

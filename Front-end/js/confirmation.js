@@ -11,7 +11,7 @@ let totalPriceCalculation = JSON.parse(localStorage.getItem("totalPriceCalculati
 
 // AFFICHAGE HTML
 let confirmationContainer = document.getElementById("confirmationContainer");
-function confirmationView (){
+confirmationView = () =>{
     confirmationContainer.innerHTML =
  `<div class="text-center mt-1 mb-2">
     <h1 class="display-5 fw-bolder text-center">Confirmation de votre commande</h1>
@@ -25,7 +25,7 @@ function confirmationView (){
 
 confirmationView();
 
-function refresh(){
+refresh = () => {
     localStorage.clear();
     window.location.reload();
 }
