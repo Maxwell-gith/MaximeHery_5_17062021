@@ -119,7 +119,7 @@ if(cart == null || cart == []){
         <input type="text" class="form-control" id="inputAddress2" placeholder="Complément d'adresse">
     </div>
     <div class="form-group col-md-6 mt-3">
-        <input type="number" min="0" max="100000" required class="form-control" id="inputPostalCode" placeholder="Code Postal">
+        <input type="number" required class="form-control" id="inputPostalCode" placeholder="Code Postal">
     </div>
     <div class="form-group col-md-6 mt-3">
         <input type="text" required class="form-control" id="inputCity" placeholder="Ville">

@@ -14,7 +14,7 @@ let confirmationContainer = document.getElementById("confirmationContainer");
 confirmationView = () =>{
     confirmationContainer.innerHTML =
  `<div class="text-center mt-1 mb-2">
-    <h1 class="display-5 fw-bolder text-center">Confirmation de votre commande</h1>
+    <h2 class="display-5 fw-bolder text-center">Confirmation de votre commande</h2>
     <p class="text-center"> Merci ${contact.firstName} ${contact.lastName} !</p>
     <p class="text-center"> Votre commande a bien été enregistrée avec le n° ${orderId} </br>
     pour un montant total de ${totalPriceCalculation/100}€</br>
