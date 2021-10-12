@@ -102,27 +102,34 @@ if(cart == null || cart == []){
     formContainer = document.getElementById('formContainer');
     formContainer.innerHTML = 
     `
-    <div class="form-group col-md-6 mt-3">
-        <input type="text" required class="form-control" id="inputfirstName" placeholder="Nom">
+    <div class="form-group col-md-7 mt-4">
+        <input type="text" required class="form-control" id="inputfirstName" name="name" placeholder="Nom">
+        <small><small>
     </div>
-    <div class="form-group col-md-6 mt-3">
-        <input type="text" required class="form-control" id="inputlastName" placeholder="Prénom">
+    <div class="form-group col-md-7 mt-4">
+        <input type="text" required class="form-control" id="inputlastName" name="name" placeholder="Prénom">
+        <small><small>
     </div>
 
-    <div class="form-group col-md-6 mt-3">
-        <input type="email" required class="form-control" id="inputEmail" placeholder="Email">
+    <div class="form-group col-md-7 mt-4">
+        <input type="text" required class="form-control" id="inputEmail" name="email" placeholder="Email">
+        <small><small>
     </div>
-    <div class="form-group col-md-6 mt-3">
-        <input type="text" required class="form-control" id="inputAddress" placeholder="Adresse">
+    <div class="form-group col-md-7 mt-4">
+        <input type="text" required class="form-control" id="inputNumberAddress" name="numberAddress" placeholder="N° de voie">
+        <small><small>
     </div>
-    <div class="form-group col-md-6 mt-3">
-        <input type="text" class="form-control" id="inputAddress2" placeholder="Complément d'adresse">
+    <div class="form-group col-md-7 mt-4">
+        <input type="text" required class="form-control" id="inputAddress" name="address" placeholder="Complément d'adresse">
+        <small><small>
     </div>
-    <div class="form-group col-md-6 mt-3">
-        <input type="number" required class="form-control" id="inputPostalCode" placeholder="Code Postal">
+    <div class="form-group col-md-7 mt-4">
+        <input type="text" required class="form-control" id="inputPostalCode" name="postalCode" placeholder="Code Postal">
+        <small><small>
     </div>
-    <div class="form-group col-md-6 mt-3">
-        <input type="text" required class="form-control" id="inputCity" placeholder="Ville">
+    <div class="form-group col-md-7 mt-4">
+        <input type="text" required class="form-control" id="inputCity" name="city" placeholder="Ville">
+        <small><small>
     </div>
     <a title="Commander" href="confirmation_page.html">
         <button id="order" type="submit" class="btn btn-dark mt-3">
@@ -130,6 +137,154 @@ if(cart == null || cart == []){
         </button>
     </a>
     `
+
+    // VALIDATION REGEX
+    validFirstName = (inputfirstName) => {
+        nameRegExp = new RegExp(
+            /^[a-zéèàùûêâôë]{1}[a-zéèàùûêâôë \'-]*[a-zéèàùûêâôë]$/i
+        );
+        small = inputfirstName.nextElementSibling;
+
+        if(nameRegExp.test(inputfirstName.value)) {
+            small.innerHTML = 'Champ Valide';
+            small.classList.remove('text-danger');
+            small.classList.add('text-success');
+            return true;
+        }else{
+            small.innerHTML = 'Champ Non Valide';
+            small.classList.remove('text-success');
+            small.classList.add('text-danger');
+            return false;  
+        }
+
+    };
+
+    validLastName = (inputlastName) => {
+        nameRegExp = new RegExp(
+            /^[a-zéèàùûêâôë]{1}[a-zéèàùûêâôë \'-]*[a-zéèàùûêâôë]$/i
+        );
+        small = inputlastName.nextElementSibling;
+
+        if(nameRegExp.test(inputlastName.value)) {
+            small.innerHTML = 'Champ Valide';
+            small.classList.remove('text-danger');
+            small.classList.add('text-success');
+            return true;
+        }else{
+            small.innerHTML = 'Champ Non Valide';
+            small.classList.remove('text-success');
+            small.classList.add('text-danger');
+            return false;  
+        }
+
+    };
+
+    validEmail = (inputEmail) => {
+        emailRegExp = new RegExp(
+            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+        let small = inputEmail.nextElementSibling;
+
+        if(emailRegExp.test(inputEmail.value)) {
+            small.innerHTML = 'Email Valide';
+            small.classList.remove('text-danger');
+            small.classList.add('text-success');
+            return true;
+        }else{
+            small.innerHTML = 'Email Non Valide';
+            small.classList.remove('text-success');
+            small.classList.add('text-danger');
+            return false;  
+        }
+
+    };
+
+    validNumberAddress = (inputNumberAddress) => {
+        numberAddressRegExp = new RegExp(
+            /[0-9]/g
+        );
+        small = inputNumberAddress.nextElementSibling;
+
+        if(numberAddressRegExp.test(inputNumberAddress.value)) {
+            small.innerHTML = 'Champ Valide';
+            small.classList.remove('text-danger');
+            small.classList.add('text-success');
+            return true;
+        }else{
+            small.innerHTML = 'Champ Non Valide';
+            small.classList.remove('text-success');
+            small.classList.add('text-danger'); 
+            return false; 
+        }
+
+    };
+
+    validAddress = (inputAddress) => {
+        addressRegExp = new RegExp(
+            /^[a-zéèàùûêâôë]{1}[a-zéèàùûêâôë \'-]*[a-zéèàùûêâôë]$/i
+        );
+        small = inputAddress.nextElementSibling;
+
+        if(addressRegExp.test(inputAddress.value)) {
+            small.innerHTML = 'Champ Valide';
+            small.classList.remove('text-danger');
+            small.classList.add('text-success');
+            return true;
+        }else{
+            small.innerHTML = 'Champ Non Valide';
+            small.classList.remove('text-success');
+            small.classList.add('text-danger');  
+            return false;
+        }
+
+    };
+
+    validPostalCode = (inputPostalCode) => {
+        postalCodeRegExp = new RegExp(
+            /^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$/
+        );
+        small = inputPostalCode.nextElementSibling;
+
+        if(postalCodeRegExp.test(inputPostalCode.value)) {
+            small.innerHTML = 'Champ Valide';
+            small.classList.remove('text-danger');
+            small.classList.add('text-success');
+            return true;
+        }else{
+            small.innerHTML = 'Champ Non Valide';
+            small.classList.remove('text-success');
+            small.classList.add('text-danger');
+            return false;  
+        }
+
+    };
+
+    validCity = (inputCity) => {
+        cityRegExp = new RegExp(
+            /^[a-zéèàùûêâôë]{1}[a-zéèàùûêâôë \'-]*[a-zéèàùûêâôë]$/i
+        );
+        small = inputCity.nextElementSibling;
+
+        if(cityRegExp.test(inputCity.value)) {
+            small.innerHTML = 'Champ Valide';
+            small.classList.remove('text-danger');
+            small.classList.add('text-success');
+            return true;
+        }else{
+            small.innerHTML = 'Champ Non Valide';
+            small.classList.remove('text-success');
+            small.classList.add('text-danger');
+            return false;  
+        }
+
+    };
+
+    //REGROUPEMENT DES VALIDATIONS EN UNE SEULE FONCTION QUI RETOURNE TRUE SI ELLES ONT TOUTES RETOURNE TRUE
+    formValidation = () => {
+        if(validFirstName(inputfirstName)&&validLastName(inputlastName)&&validEmail(inputEmail)&&validAddress(inputAddress)&&validPostalCode(inputPostalCode)&&validCity(inputCity)){
+            return true;
+        }
+    };
 
     // PREPARATION DE LA COMMANDE
     sendOrder = () =>{
@@ -174,8 +329,13 @@ if(cart == null || cart == []){
     };
 
     order = document.getElementById('order');
-    order.addEventListener('click', function(e) {e.preventDefault(); sendOrder()});
-
+    order.addEventListener('click', function(e) {
+        e.preventDefault();
+        // SI LA VALIDATION EST CORRECTE ONT ENVOIE LA COMMANDE
+        if (formValidation()) {
+            sendOrder();
+        }
+    });
 };
 
 
