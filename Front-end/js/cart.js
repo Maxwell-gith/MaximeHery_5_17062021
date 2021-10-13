@@ -116,15 +116,15 @@ if(cart == null || cart == []){
         <small><small>
     </div>
     <div class="form-group col-md-7 mt-4">
-        <input type="text" required class="form-control" id="inputNumberAddress" name="numberAddress" placeholder="N° de voie">
+        <input type="text" class="form-control" id="inputNumberAddress" name="numberAddress" placeholder="N° de voie">
         <small><small>
     </div>
     <div class="form-group col-md-7 mt-4">
-        <input type="text" required class="form-control" id="inputAddress" name="address" placeholder="Complément d'adresse">
+        <input type="text" required class="form-control" id="inputAddress" name="address" placeholder="Adresse">
         <small><small>
     </div>
     <div class="form-group col-md-7 mt-4">
-        <input type="text" required class="form-control" id="inputPostalCode" name="postalCode" placeholder="Code Postal">
+        <input type="text" class="form-control" id="inputPostalCode" name="postalCode" placeholder="Code Postal">
         <small><small>
     </div>
     <div class="form-group col-md-7 mt-4">
@@ -279,9 +279,9 @@ if(cart == null || cart == []){
 
     };
 
-    //REGROUPEMENT DES VALIDATIONS EN UNE SEULE FONCTION QUI RETOURNE TRUE SI ELLES ONT TOUTES RETOURNE TRUE
+    //REGROUPEMENT DES VALIDATIONS EN UNE SEULE FONCTION QUI RETOURNE TRUE SI ELLES ONT TOUTES RETOURNEE TRUE
     formValidation = () => {
-        if(validFirstName(inputfirstName)&&validLastName(inputlastName)&&validEmail(inputEmail)&&validAddress(inputAddress)&&validPostalCode(inputPostalCode)&&validCity(inputCity)){
+        if(validFirstName(inputfirstName)&&validLastName(inputlastName)&&validEmail(inputEmail)&&validAddress(inputAddress)&&validCity(inputCity)){
             return true;
         }
     };
@@ -294,8 +294,6 @@ if(cart == null || cart == []){
                 'lastName': document.getElementById("inputlastName").value,
                 'email': document.getElementById("inputEmail").value,
                 'address': document.getElementById("inputAddress").value,
-                'address2': document.getElementById("inputAddress2").value,
-                'postalCode': document.getElementById("inputPostalCode").value,
                 'city': document.getElementById("inputCity").value
             };
 
